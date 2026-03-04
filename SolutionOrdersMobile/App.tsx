@@ -1,23 +1,85 @@
-import React from 'react';
-import { Text, StyleSheet, ScrollView } from 'react-native';
-import Greeting from './src/components/Greeting';
+import React, {useEffect, useRef} from 'react';
+import {Text, StyleSheet, Image, TextInput, TouchableOpacity, ScrollView, View, Animated, Dimensions} from 'react-native';
+import {useState} from 'react';
 import {SafeAreaView } from 'react-native-safe-area-context';
-import Counter from './src/components/Counter';
-import ItemList from './src/components/ItemList';
+
+const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 function App(): React.JSX.Element {
-  return (
+
+ const [email, setEmail] = useState("");
+ const [password, setPassword] = useState("");
+
+ const logoY = useRef(new Animated.Value(SCREEN_HEIGHT / 2 - 144)).current;
+ const contentY = useRef(new Animated.Value(SCREEN_HEIGHT)).current;
+
+ useEffect(() => {
+   setTimeout(() => {
+     Animated.parallel([
+       Animated.timing(logoY, {
+         toValue: 0,
+         duration: 700,
+         useNativeDriver: true,
+       }),
+       Animated.timing(contentY, {
+         toValue: 0,
+         duration: 700,
+         useNativeDriver: true,
+       }),
+     ]).start();
+   }, 1000);
+ }, []);
+
+ const handleLogin = () =>
+{
+  console.log(email, password);
+} 
+return (
       <SafeAreaView style={styles.container}>
-        <ScrollView contentContainerStyle={styles.content}>
-          <Text style={styles.title}>Hello React Native!</Text>
-          <Text style={styles.subtitle}>with TypeScript 🚀</Text>
-          <Greeting name="Anna" age={25} />
-          <Greeting name="Piotr" isVip={true} />
-          <Greeting name="Kasia" age={30} isVip={true} />
-          <Greeting name="Jan" />
-          <Counter />
-          <ItemList />
-        </ScrollView>
+        <Animated.View style={{transform: [{translateY: logoY}]}}>
+        <Image
+        source={require('./src/assets/logoDV.png')}
+        style={styles.logo}
+        resizeMode="contain"
+      />
+        </Animated.View>
+      <Animated.View style={[styles.content, {transform: [{translateY: contentY}]}]}>
+      <Text style={styles.title}>Log in</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Email/Phone number"
+        placeholderTextColor="gray"
+        value={email}
+        onChangeText={setEmail}
+        caretHidden={true}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Password"
+        placeholderTextColor="gray"
+        value={password}
+        onChangeText={setPassword}
+        caretHidden={true}
+        secureTextEntry={true}
+      />
+      <TouchableOpacity style={styles.button} onPress={handleLogin}>
+        <Text style={styles.buttonText}>Login</Text>
+      </TouchableOpacity>
+      <View style={styles.footer}>
+      <View style={styles.leftLine}></View>
+      <Text style={styles.footerText}>Or login with</Text>
+      <View style={styles.rightLine}></View>
+      </View>
+      <View style={styles.icons}>
+      <TouchableOpacity style={styles.iconGoogle}>
+        <Text>G</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.iconApple}>
+        <Text>A</Text>
+      </TouchableOpacity>
+      </View>
+      </Animated.View>
+
       </SafeAreaView>
 
   );
@@ -28,21 +90,107 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'black',
   },
+  logo: {
+    alignSelf: 'center',
+    width: 300,
+    height: 200,
+    marginBottom: 0,
+    marginTop: 0,
+  },
   content: {
-    paddingVertical: 16,
+    flex: 1,
+    paddingTop: 20,
+    backgroundColor: '#E4E4E4',
+    borderTopLeftRadius: 80,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
+    marginTop: 10,
+    marginBottom: 25,
+    color: 'black',
+    fontSize: 48,
+    fontWeight: '900',
     textAlign: 'center',
   },
-  subtitle: {
-    fontSize: 16,
-    color: '#666',
-    marginTop: 8,
-    marginBottom: 16,
+  input: {
+    alignSelf: 'center',
+    width: '80%',
+    padding: 17,
+    marginTop: 30,
+    backgroundColor: 'black',
+    borderRadius: 20,
+    borderWidth: 0.5,
+    borderColor: '#A9A9A9',
+    color: '#A9A9A9',
+    fontSize: 20,
+    fontWeight: '200',
     textAlign: 'center',
+  },
+  button: {
+    alignSelf: 'center',
+    width: '80%',
+    padding: 15,
+    marginTop: 100,
+    backgroundColor: 'black',
+    borderRadius: 20,
+  },
+  buttonText: {
+    color: '#B8B8B8',
+    fontSize: 24,
+    fontWeight: '800',
+    textAlign: 'center',
+  },
+  footer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 20,
+    marginHorizontal: 50,
+  },
+  leftLine: {
+    flex: 1,
+    alignSelf: 'center',
+    height: 1,
+    backgroundColor: 'black',
+  },
+  rightLine: {
+    flex: 1,
+    alignSelf: 'center',
+    height: 1,
+    backgroundColor: 'black',
+  },
+  footerText: {
+    marginHorizontal: 15,
+    color: 'black',
+    fontSize: 18,
+    fontWeight: '400',
+    textAlign: 'center',
+  },
+  icons: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  iconGoogle: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 50,
+    height: 50,
+    marginRight: 10,
+    borderRadius: 25,
+    borderWidth: 1,
+    fontSize: 18,
+    lineHeight: 50,
+  },
+  iconApple: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 50,
+    height: 50,
+    marginLeft: 10,
+    borderRadius: 25,
+    borderWidth: 1,
+    fontSize: 18,
+    lineHeight: 50,
   },
 });
 
