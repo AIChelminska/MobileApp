@@ -3,6 +3,7 @@ import { Text, StyleSheet, ScrollView } from 'react-native';
 import Greeting from './src/components/Greeting';
 import {SafeAreaView } from 'react-native-safe-area-context';
 import Counter from './src/components/Counter';
+import ItemList from './src/components/ItemList';
 
 function App(): React.JSX.Element {
   return (
@@ -15,6 +16,7 @@ function App(): React.JSX.Element {
           <Greeting name="Kasia" age={30} isVip={true} />
           <Greeting name="Jan" />
           <Counter />
+          <ItemList />
         </ScrollView>
       </SafeAreaView>
 
@@ -24,22 +26,23 @@ function App(): React.JSX.Element {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: 'black',
   },
   content: {
-    alignItems: 'center',
     paddingVertical: 16,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     color: '#333',
+    textAlign: 'center',
   },
   subtitle: {
     fontSize: 16,
     color: '#666',
     marginTop: 8,
     marginBottom: 16,
+    textAlign: 'center',
   },
 });
 
