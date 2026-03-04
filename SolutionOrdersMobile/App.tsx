@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, StyleSheet, ScrollView } from 'react-native';
 import Greeting from './src/components/Greeting';
 import {SafeAreaView } from 'react-native-safe-area-context';
+import Counter from './src/components/Counter';
 
 function App(): React.JSX.Element {
   return (
@@ -13,6 +14,7 @@ function App(): React.JSX.Element {
           <Greeting name="Piotr" isVip={true} />
           <Greeting name="Kasia" age={30} isVip={true} />
           <Greeting name="Jan" />
+          <Counter />
         </ScrollView>
       </SafeAreaView>
 
