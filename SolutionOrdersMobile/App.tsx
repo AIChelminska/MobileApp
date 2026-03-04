@@ -2,6 +2,7 @@ import React, {useEffect, useRef} from 'react';
 import {Text, StyleSheet, Image, TextInput, TouchableOpacity, ScrollView, View, Animated, Dimensions} from 'react-native';
 import {useState} from 'react';
 import {SafeAreaView } from 'react-native-safe-area-context';
+import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 
@@ -72,12 +73,18 @@ return (
       </View>
       <View style={styles.icons}>
       <TouchableOpacity style={styles.iconGoogle}>
-        <Text>G</Text>
+        <AntDesignIcon name="google" size={24} color="black" />
       </TouchableOpacity>
       <TouchableOpacity style={styles.iconApple}>
-        <Text>A</Text>
+        <AntDesignIcon name="apple1" size={24} color="black" />
       </TouchableOpacity>
       </View>
+      <View style={styles.signUpRow}>
+  <Text style={styles.subtitle}>Don't have an account? </Text>
+  <TouchableOpacity onPress={() => {}}>
+    <Text style={styles.subtitleLink}>Sign up</Text>
+  </TouchableOpacity>
+</View>
       </Animated.View>
 
       </SafeAreaView>
@@ -100,6 +107,7 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     paddingTop: 20,
+    minHeight: SCREEN_HEIGHT,
     backgroundColor: '#E4E4E4',
     borderTopLeftRadius: 80,
   },
@@ -129,7 +137,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     width: '80%',
     padding: 15,
-    marginTop: 100,
+    marginTop: 60,
     backgroundColor: 'black',
     borderRadius: 20,
   },
@@ -191,6 +199,24 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     fontSize: 18,
     lineHeight: 50,
+  },
+  subtitle: {
+    color: 'black',
+    fontSize: 14,
+    fontWeight: '400',
+    textAlign: 'center',
+  },
+  subtitleLink: {
+    color: 'black',
+    fontSize: 14,
+    fontWeight: '600',
+    textDecorationLine: 'underline',
+  },
+  signUpRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
   },
 });
 

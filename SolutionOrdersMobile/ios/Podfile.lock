@@ -1854,6 +1854,28 @@ PODS:
     - React-utils (= 0.84.1)
     - ReactNativeDependencies
   - ReactNativeDependencies (0.84.1)
+  - RNVectorIcons (10.3.0):
+    - hermes-engine
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-Core-prebuilt
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-jsi
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-renderercss
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - ReactNativeDependencies
+    - Yoga
   - Yoga (0.0.0)
 
 DEPENDENCIES:
@@ -1931,6 +1953,7 @@ DEPENDENCIES:
   - ReactCodegen (from `build/generated/ios/ReactCodegen`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - ReactNativeDependencies (from `../node_modules/react-native/third-party-podspecs/ReactNativeDependencies.podspec`)
+  - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 EXTERNAL SOURCES:
@@ -2081,6 +2104,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   ReactNativeDependencies:
     :podspec: "../node_modules/react-native/third-party-podspecs/ReactNativeDependencies.podspec"
+  RNVectorIcons:
+    :path: "../node_modules/react-native-vector-icons"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -2158,8 +2183,9 @@ SPEC CHECKSUMS:
   ReactCodegen: 4fa1b291ad275013e39212f2463c46480fb53afe
   ReactCommon: 309419492d417c4cbb87af06f67735afa40ecb9d
   ReactNativeDependencies: 4e9ea837543c49bc11e30fda417898abc1743ef8
-  Yoga: 7c1c3b93e408ac46c7ed64b5641ca7161747378d
+  RNVectorIcons: af977c18ed27deba54ed038b439fca2911a08cfc
+  Yoga: c0b3f2c7e8d3e327e450223a2414ca3fa296b9a2
 
 PODFILE CHECKSUM: 3320692c899be9dc4cb56bbf16d553957ec7cb35
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.16.2
