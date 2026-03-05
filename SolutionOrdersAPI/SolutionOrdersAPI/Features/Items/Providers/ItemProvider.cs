@@ -1,6 +1,5 @@
-using Mapster;
 using Microsoft.EntityFrameworkCore;
-using SolutionOrdersAPI.Features.Items.Messages.DTOs;
+using SolutionOrdersAPI.Models;
 using SolutionOrdersAPI.Models.Data;
 
 namespace SolutionOrdersAPI.Features.Items.Providers;
@@ -8,27 +7,45 @@ namespace SolutionOrdersAPI.Features.Items.Providers;
 public class ItemProvider : IItemProvider
 {
     private readonly ApplicationDbContext _context;
+    private IItemProvider _itemProviderImplementation;
 
     public ItemProvider(ApplicationDbContext context)
     {
         _context = context;
     }
 
-    public async Task<IEnumerable<ItemDto>> GetItemsAsync(CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<Item>> GetItemsAsync(bool AsNoTracking = true, CancellationToken cancellationToken = default)
     {
-        return await _context.Items
-            .AsNoTracking()
-            .Where(i => i.IsActive)
-            .ProjectToType<ItemDto>()
+        var query = _context.Items
+            .Include(i => i.Category)
+            .Include(i => i.UnitOfMeasurement)
+            .Where(i => i.IsActive);
+        
+        if (AsNoTracking)
+        {
+            query = query.AsNoTracking();
+        }
+        
+        return await query
+            .OrderBy(item => item.Name)
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<ItemDto?> GetItemByIdAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<Item?> GetItemByIdAsync(int id, bool AsNoTracking = true, CancellationToken cancellationToken = default)
     {
-        return await _context.Items
-            .AsNoTracking()
-            .Where(i => i.IdItem == id && i.IsActive)
-            .ProjectToType<ItemDto>()
-            .FirstOrDefaultAsync(cancellationToken);
+        var query = _context.Items
+            .Include(i => i.Category)
+            .Include(i => i.UnitOfMeasurement)
+            .Where(i => i.IsActive);
+        
+        if (AsNoTracking)
+        {
+            query = query.AsNoTracking();
+        }
+        
+        var item = await query
+            .FirstOrDefaultAsync(i => i.IdItem == id && i.IsActive, cancellationToken);
+        
+        return item ?? throw new KeyNotFoundException($"Produkt o ID {id} nie istnieje");
     }
 }

@@ -1,9 +1,9 @@
-using SolutionOrdersAPI.Features.Items.Messages.DTOs;
+using SolutionOrdersAPI.Models;
 
 namespace SolutionOrdersAPI.Features.Items.Providers;
 
 public interface IItemProvider
 {
-    Task<IEnumerable<ItemDto>> GetItemsAsync(CancellationToken cancellationToken = default);
-    Task<ItemDto?> GetItemByIdAsync(int id, CancellationToken cancellationToken = default);
+    Task<IEnumerable<Item>> GetItemsAsync(bool AsNoTracking = true, CancellationToken cancellationToken = default);
+    Task<Item?> GetItemByIdAsync(int id, bool AsNoTracking = true, CancellationToken cancellationToken = default);
 }

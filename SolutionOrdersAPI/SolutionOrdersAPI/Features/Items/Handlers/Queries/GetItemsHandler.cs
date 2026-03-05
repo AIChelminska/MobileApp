@@ -1,3 +1,4 @@
+using Mapster;
 using MediatR;
 using SolutionOrdersAPI.Features.Items.Messages.DTOs;
 using SolutionOrdersAPI.Features.Items.Messages.Queries;
@@ -16,6 +17,7 @@ public class GetItemsHandler : IRequestHandler<GetItemsQuery, IEnumerable<ItemDt
 
     public async Task<IEnumerable<ItemDto>> Handle(GetItemsQuery request, CancellationToken cancellationToken)
     {
-        return await _itemProvider.GetItemsAsync(cancellationToken);
+        return (await _itemProvider.GetItemsAsync(true, cancellationToken))
+            .Adapt<IEnumerable<ItemDto>>();
     }
 }

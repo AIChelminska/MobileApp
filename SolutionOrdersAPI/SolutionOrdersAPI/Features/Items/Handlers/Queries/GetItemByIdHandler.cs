@@ -1,4 +1,5 @@
 using MediatR;
+using Mapster;
 using SolutionOrdersAPI.Features.Items.Messages.DTOs;
 using SolutionOrdersAPI.Features.Items.Messages.Queries;
 using SolutionOrdersAPI.Features.Items.Providers;
@@ -16,6 +17,7 @@ public class GetItemByIdHandler : IRequestHandler<GetItemByIdQuery, ItemDto?>
 
     public async Task<ItemDto?> Handle(GetItemByIdQuery request, CancellationToken cancellationToken)
     {
-        return await _itemProvider.GetItemByIdAsync(request.Id, cancellationToken);
+        return (await _itemProvider.GetItemByIdAsync(request.Id, true, cancellationToken))?
+            .Adapt<ItemDto>();
     }
 }
