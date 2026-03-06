@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using SolutionOrdersAPI.Features.Items.Messages.Commands;
 using SolutionOrdersAPI.Features.Items.Messages.DTOs;
 using SolutionOrdersAPI.Features.Items.Messages.Queries;
 
@@ -26,6 +27,8 @@ public class ItemController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [ProducesResponseType(typeof(ItemDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetItem(int id)
     {
         var query = new GetItemByIdQuery(id);
@@ -34,4 +37,18 @@ public class ItemController : ControllerBase
             return NotFound();
         return Ok(item);
     }
+    
+    // POST: api/items
+    [HttpPost]
+    [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> Create([FromBody] CreateItemCommand command)
+    {
+        var itemId = await _mediator.Send(command);
+        // HTTP 201 Created z Location header
+        return CreatedAtAction(nameof(GetItem), new { id = itemId },
+            new { id = itemId, message = "Produkt został utworzony" }
+        );
+    }
+    
 }

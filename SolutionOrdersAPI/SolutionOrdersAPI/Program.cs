@@ -1,6 +1,7 @@
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using SolutionOrdersAPI.Features.Items.Providers;
+using SolutionOrdersAPI.Features.Items.Services;
 using SolutionOrdersAPI.Models.Data;
 using System.Reflection;
 
@@ -24,6 +25,9 @@ namespace SolutionOrdersAPI
             
             // Providers
             builder.Services.AddScoped<IItemProvider, ItemProvider>();
+            
+            // Services
+            builder.Services.AddScoped<IItemService, ItemService>();
             
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
