@@ -7,7 +7,6 @@ namespace SolutionOrdersAPI.Features.Items.Providers;
 public class ItemProvider : IItemProvider
 {
     private readonly ApplicationDbContext _context;
-    private IItemProvider _itemProviderImplementation;
 
     public ItemProvider(ApplicationDbContext context)
     {
@@ -45,7 +44,7 @@ public class ItemProvider : IItemProvider
         
         var item = await query
             .FirstOrDefaultAsync(i => i.IdItem == id && i.IsActive, cancellationToken);
-        
-        return item ?? throw new KeyNotFoundException($"Produkt o ID {id} nie istnieje");
+
+        return item;
     }
 }

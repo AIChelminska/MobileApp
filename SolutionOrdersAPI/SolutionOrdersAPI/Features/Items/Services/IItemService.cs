@@ -1,6 +1,6 @@
 namespace SolutionOrdersAPI.Features.Items.Services;
 
-public class IItemService
+public interface IItemService
 {
     
 }
