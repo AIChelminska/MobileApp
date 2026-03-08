@@ -12,6 +12,10 @@ public class DeleteItemHandler(IItemProvider itemProvider, IItemService itemServ
     public async Task<Unit> Handle(DeleteItemCommand request, CancellationToken cancellationToken)
     {
         var item = await itemProvider.GetItemByIdAsync(request.IdItem, false, cancellationToken);
+        
+        if (item == null)
+            throw new KeyNotFoundException($"Produkt o ID {request.IdItem} nie istnieje.");
+        
         logger.LogInformation("Usuwanie produktu ID: {IdItem}", request.IdItem);
         item.IsActive = false;
         await itemService.DeleteItem(item, cancellationToken);
