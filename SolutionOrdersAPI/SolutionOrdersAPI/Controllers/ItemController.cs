@@ -49,8 +49,7 @@ public class ItemController(IMediator mediator) : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Update(int id, [FromBody] UpdateItemCommand command)
     {
-        if (id != command.IdItem)
-            return BadRequest(new { message = "ID w URL różni się od ID w body" });
+        command.IdItem = id;
 
         try
         {

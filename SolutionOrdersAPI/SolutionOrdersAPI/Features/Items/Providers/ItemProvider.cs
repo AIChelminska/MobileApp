@@ -30,7 +30,7 @@ public class ItemProvider : IItemProvider
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<Item?> GetItemByIdAsync(int id, bool AsNoTracking = true, CancellationToken cancellationToken = default)
+    public async Task<Item> GetItemByIdAsync(int id, bool AsNoTracking = true, CancellationToken cancellationToken = default)
     {
         var query = _context.Items
             .Include(i => i.Category)
@@ -45,6 +45,6 @@ public class ItemProvider : IItemProvider
         var item = await query
             .FirstOrDefaultAsync(i => i.IdItem == id && i.IsActive, cancellationToken);
 
-        return item;
+        return item ?? throw new KeyNotFoundException($"Produkt o ID {id} nie istnieje.");
     }
 }
