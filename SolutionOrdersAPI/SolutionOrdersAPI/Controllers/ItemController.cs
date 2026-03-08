@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SolutionOrdersAPI.Features.Items.Messages.Commands;
 using SolutionOrdersAPI.Features.Items.Messages.DTOs;
@@ -6,6 +7,7 @@ using SolutionOrdersAPI.Features.Items.Messages.Queries;
 
 namespace SolutionOrdersAPI.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class ItemController(IMediator mediator) : ControllerBase
