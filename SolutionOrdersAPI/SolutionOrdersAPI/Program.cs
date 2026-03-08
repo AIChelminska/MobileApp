@@ -1,9 +1,12 @@
 using Mapster;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using SolutionOrdersAPI.Features.Items.Providers;
 using SolutionOrdersAPI.Features.Items.Services;
 using SolutionOrdersAPI.Models.Data;
 using System.Reflection;
+using System.Text;
 
 namespace SolutionOrdersAPI
 {
@@ -28,6 +31,26 @@ namespace SolutionOrdersAPI
             
             // Services
             builder.Services.AddScoped<IItemService, ItemService>();
+
+            // JWT
+            var jwtKey = builder.Configuration["Jwt:Key"]!;
+            var jwtIssuer = builder.Configuration["Jwt:Issuer"]!;
+            var jwtAudience = builder.Configuration["Jwt:Audience"]!;
+
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = jwtIssuer,
+                        ValidAudience = jwtAudience,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
+                    };
+                });
             
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
@@ -57,6 +80,7 @@ namespace SolutionOrdersAPI
             }
 
             app.UseHttpsRedirection();
+            app.UseAuthentication(); // musi być przed UseAuthorization!
             app.UseAuthorization();
             app.MapControllers();
             app.Run();

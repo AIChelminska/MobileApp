@@ -3,6 +3,8 @@ import {Text, StyleSheet, Image, TextInput, TouchableOpacity, ScrollView, View, 
 import {useState} from 'react';
 import {SafeAreaView } from 'react-native-safe-area-context';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Alert } from 'react-native';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 
@@ -31,10 +33,35 @@ function App(): React.JSX.Element {
    }, 1000);
  }, []);
 
- const handleLogin = () =>
-{
-  console.log(email, password);
-} 
+ const handleLogin = async () => {
+  try {
+    console.log('Wysyłam:', JSON.stringify({ login: email.trim(), password: password.trim() }));
+    const response = await fetch('http://10.0.2.2:5001/api/Auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        login: email.trim(),
+        password: password.trim(),
+      }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      await AsyncStorage.setItem('token', data.token);
+      console.log('Zalogowano! Token:', data.token);
+      Alert.alert('Sukces!', 'Zalogowano pomyślnie!');
+    } else {
+      console.log('Błąd:', data.message);
+      Alert.alert('Błąd', data.message);
+    }
+  } catch (error) {
+    console.log('Błąd połączenia:', error);
+    Alert.alert('Błąd', String(error));
+  }
+};
 return (
       <SafeAreaView style={styles.container}>
         <Animated.View style={{transform: [{translateY: logoY}]}}>
@@ -48,11 +75,13 @@ return (
       <Text style={styles.title}>Log in</Text>
       <TextInput
         style={styles.input}
-        placeholder="Email/Phone number"
+        placeholder="Login"
         placeholderTextColor="gray"
         value={email}
         onChangeText={setEmail}
         caretHidden={true}
+        autoCapitalize="none"
+        autoCorrect={false}
       />
       <TextInput
         style={styles.input}

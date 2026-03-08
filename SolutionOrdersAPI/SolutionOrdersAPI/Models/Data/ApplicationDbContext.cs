@@ -133,8 +133,8 @@ public class ApplicationDbContext : DbContext
 
             // Worker
             modelBuilder.Entity<Worker>().HasData(
-                new Worker { IdWorker = 1, FirstName = "Piotr", LastName = "Kowalczyk", Login = "pkowalczyk", Password = "haslo123", IsActive = true },
-                new Worker { IdWorker = 2, FirstName = "Maria", LastName = "Wiśniewska", Login = "mwisnieska", Password = "haslo456", IsActive = true }
+                new Worker { IdWorker = 1, FirstName = "Piotr", LastName = "Kowalczyk", Login = "pkowalczyk", Password = "$2a$11$1VcIIE8UV7jmPX4G8639weyVcM2XKTBhNB.9kSV9hClwdZAZDMlxW", IsActive = true },
+                new Worker { IdWorker = 2, FirstName = "Maria", LastName = "Wiśniewska", Login = "mwisnieska", Password = "$2a$11$r9tztql2KWu2d1FMb0.yfuYTJJIA1dNtp5b4oZQWNC84pOfW/7oaG", IsActive = true }
             );
 
             // Item

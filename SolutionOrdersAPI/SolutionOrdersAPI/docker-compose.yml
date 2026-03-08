@@ -1,9 +1,0 @@
-services:
-  postgres:
-    image: postgres:16
-    environment:
-      POSTGRES_DB: SolutionOrdersDB
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres123
-    ports:
-      - "5432:5432"
