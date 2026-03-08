@@ -7,8 +7,17 @@ public class ItemService(ApplicationDbContext context) : IItemService
 {
     public async Task CreateItem(Item item, CancellationToken cancellationToken)
     {
-        item.IsActive = true;
         context.Items.Add(item);
+        await context.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task UpdateItem(Item item, CancellationToken cancellationToken)
+    {
+        await context.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task DeleteItem(Item item, CancellationToken cancellationToken)
+    {
         await context.SaveChangesAsync(cancellationToken);
     }
 }

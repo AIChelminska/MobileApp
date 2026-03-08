@@ -17,7 +17,11 @@ public class GetItemByIdHandler : IRequestHandler<GetItemByIdQuery, ItemDto?>
 
     public async Task<ItemDto?> Handle(GetItemByIdQuery request, CancellationToken cancellationToken)
     {
-        return (await _itemProvider.GetItemByIdAsync(request.Id, true, cancellationToken))?
-            .Adapt<ItemDto>();
+        // AsNoTracking=true — tylko odczyt
+        var item = await _itemProvider.GetItemByIdAsync(request.Id, true, cancellationToken);
+
+        // Operator ?. (null-conditional) — jeśli item == null, Adapt() nie jest wywoływane
+        // i cała ekspresja zwraca null. Kontroler następnie zwróci 404 Not Found.
+        return item?.Adapt<ItemDto>();
     }
 }
